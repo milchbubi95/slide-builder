@@ -7,21 +7,22 @@ var stage = new Konva.Stage({
 var layer = new Konva.Layer();
 
 Konva.Image.fromURL("https://images.unsplash.com/photo-1599721765049-d7f0e0f727a5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1887&q=80", function(image) {
-  resizeImageToCanvas(image);  
-  image.draggable(true);  
+  resizeImageToCanvas(image);
+  document.getElementById('sliderX').min = -(image.width() - stage.width());
   layer.add(image);
-  
-  const tr = new Konva.Transformer({
-    node: image,
-    enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
-  });
-
-  layer.add(tr);
   layer.draw();
 })
 
 stage.add(layer);
 layer.draw();
+
+function setXPosition(event) {
+  layer.clear();
+  let image = layer.findOne('Image');
+  image.x(event.value);
+  layer.add(image);
+  layer.draw();
+}
 
 function resizeImageToCanvas(image) {
   var width = image.width();
